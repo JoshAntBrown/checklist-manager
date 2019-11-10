@@ -52,8 +52,8 @@ module.exports = app => {
     })
 
     // Get body of related issues
-    node.timelineItems.nodes
-      .forEach(async ({ source }) => {
+    const requests = node.timelineItems.nodes
+      .map(async ({ source }) => {
         const body = source.body + '\n'
 
         // Find closed issue in checklist within related issues
@@ -71,7 +71,6 @@ module.exports = app => {
         // Update body of issue to check each item off
         const newBody = checklistItems.reduce((content, item) => {
           const checkmark = action === 'closed' ? 'x' : ' '
-          console.log(action)
           const checkedItem = `- [${checkmark}]${item.slice(5)}`
           return body.replace(item, checkedItem)
         }, body)
@@ -84,6 +83,8 @@ module.exports = app => {
           }
         })
       })
+
+    await Promise.all(requests)
   }
 
   app.on('issues.closed', manageChecklists)
