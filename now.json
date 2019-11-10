@@ -1,0 +1,10 @@
+{
+  "builds": [{ "src": "index.js", "use": "@now/node" }],
+  "env": {
+    "APP_ID": "@checklist-manager.app-id",
+    "PRIVATE_KEY": "@checklist-manager.private-key",
+    "WEBHOOK_SECRET": "@checklist-manager.webhook-secret"
+  },
+  "routes": [{ "src": "/", "dest": "/index.js" }],
+  "version": 2
+}
